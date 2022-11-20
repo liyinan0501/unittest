@@ -1,40 +1,8 @@
-# Unittest
-
-## Basic
-
-### unittest
+# Basic
 
 - test file must import unittest
 - test class must inherent unittest.Testcase
-- test function must start with test_
-
-### pytest
-
-- test file must start with test_ or end with _test
-- test class name must start with Test
-- test function must start with test_
-
-## Fixtrues (Hooks)
-
-### unitest
-
-setUp/tearDown  在测试用例之前和之后执行
-
-setUpClass/tearDownClass: Executing before or after, when testing the class.
-
-setUpModule/teardownModule: Executing before or after, when testing the module.
-
-### pytest
-
-setup/teardown  在测试用例之前和之后执行
-
-setup_class/teardown_class: Executing before or after, when testing the class.
-
-setup_module/teardown_module: Executing before or after, when testing the module.
-
-@pytest.fixtrue()
-
-
+- test function must start with test\_
 
 断言：
 
@@ -42,15 +10,11 @@ unittest: self.assertEqual() self.assertin()
 
 pytest: pythoin asseet
 
-
-
 报告：
 
 unittest: HtmlTestrunner.py
 
 pytest: pytest-html.allure
-
-
 
 失败重跑：
 
@@ -58,23 +22,21 @@ unittest: no
 
 pytest: pytest-rerunfailures
 
-
-
 参数化：
 
 unittest: ddt
 
 pytest: @pytest.mark.parametrize()
 
-## Component
+# Component
 
 TestCase 测试用例：最小单元，业务逻辑。
 
-TestSuite 测试套件：一组 TestCase 的集合，或者是TestSuite的集合，用来管理，打包多个 TestCase。
+TestSuite 测试套件：一组 TestCase 的集合，或者是 TestSuite 的集合，用来管理，打包多个 TestCase。
 
 TestRunner 测试运行器：运行指定的 TestCase 或 TestSuite。
 
-TestLoader 测试加载器：加载 TestCase 或 TestSuite，并且对  TestCase 和  TestSuite 功能的补充。
+TestLoader 测试加载器：加载 TestCase 或 TestSuite，并且对 TestCase 和 TestSuite 功能的补充。
 
 TestFixture 测试夹具：书写在 TestCase 代码中，是一种代码结构，可以在每个方法执行前后执行的内容。
 
@@ -92,9 +54,9 @@ class TestUnittest(unittest.TestCase):
         print("start to test notify")
 ```
 
-## unnittest 实例
+# unnittest 实例
 
-unittest运行方式有两种
+unittest 运行方式有两种
 
 - 命令行的运行方式：
 
@@ -107,16 +69,16 @@ unittest运行方式有两种
 
   -v：verbose 显示更详细
 
-  -k：通过通配符*进行匹配方法名
+  -k：通过通配符\*进行匹配方法名
 
-- 通过main运行
+- 通过 main 运行
 
   ```python
   if __name__ == "__main__":
       unittest.main()
   ```
 
-## unittest 的测试用例运行结果
+# unittest 的测试用例运行结果
 
 `.` 代表成功
 
@@ -128,15 +90,15 @@ unittest运行方式有两种
 
 不能通过用`-v`的方式运行， 因为`-v`是详尽的报错方式，不是简介的报错方式。
 
-## unittest测试用例的执行顺序规则
+# unittest 测试用例的执行顺序规则
 
-以ASCII的编码的大小排序，【0-9, A-Z, a-z】
+以 ASCII 的编码的大小排序，【0-9, A-Z, a-z】
 
-通过`print(ord('a'))` 查看ASCII码
+通过`print(ord('a'))` 查看 ASCII 码
 
-## unittest的加载和运行测试用例的方式
+# unittest 的加载和运行测试用例的方式
 
-**AddTest(测试类名('方法名'))**
+## AddTest
 
 ```python
 if __name__ == "__main__":
@@ -151,7 +113,7 @@ if __name__ == "__main__":
     unittest.main(defaultTest="suite")
 ```
 
-**AddTests**
+## **AddTests**
 
 ```python
 if __name__ == "__main__":
@@ -164,11 +126,61 @@ if __name__ == "__main__":
     unittest.main(defaultTest="suite")
 ```
 
-**加载一个目录下所有的测试用例**
+## **TestLoader**
+
+和 TestSuite 的作用一样，对 TestSuite 功能的补充，用来组装测试用例的，加载一个目录下所有的测试用例。
 
 ```python
-if __name__ == "__main__":
-    suite = unittest.defaultTestLoader.discover("./test", pattern="test_*.py")
-    unittest.main(defaultTest="suite")
+import unittest
+
+suite = unttest.TestLoader().discover("./case", pattern="test*.py")
+# suite = unittest.defaultTestLoader.discover("./case", pattern="test*.py")
+unittest.TextTestRunner().run(suite)
 ```
 
+# Fixtrues (Hooks)
+
+是一种代码结构，在某些特定情况下，会自动执行。
+
+## Function Level
+
+在每个测试方法，执行前后都会自动调用的结构。
+
+```python
+# 方法之前执行
+def setUp(self):
+
+# 之间为测试用例
+
+# 方法执行之后
+def tearDown(self):
+```
+
+## Class Level
+
+在每个测试类中所有方法执行前后，都会自动调用的结构（在整个类中，执行之前之后只执行一次）。
+
+```python
+# 类中所有方法之前
+@classmethod
+def setUpClass(cls):
+
+# 类中所有方法之后
+@classmethod
+def tearDownClass(cls):
+```
+
+## Module Level
+
+模块：代码文件
+
+在每个代码文件执行前后执行的代码结构。
+
+```python
+# 模块级别的需要写在类的外边直接定义函数即可
+# 代码文件之前
+def setUpModule():
+
+# 代码文件之后
+def tearDownModule():
+```
